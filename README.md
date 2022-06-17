@@ -5,3 +5,5 @@
 api来自：https://github.com/SocialSisterYi/bilibili-API-collect/tree/master/video
 
 除了音频，视频也是可以下载的，但是没加，有需要的自己改下参数就可以，接口文档在上面链接可以找到
+
+添加了b站直播弹幕抓取

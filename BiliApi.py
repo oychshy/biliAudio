@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import requests
 import HTTPRequests
 import moviepy.editor as mp
@@ -14,7 +15,13 @@ path = '/Users/js/Downloads/adio/'
 def CheckUpload(uid,page):
     url = 'http://api.bilibili.com/x/space/arc/search?pn='+str(page)+'&ps=50&mid=' + str(uid)
     ret = HTTPRequests.HTTPGet(url)
-    return json.loads(ret)
+    retDic = json.loads(ret)
+    if retDic['code'] != 0:
+        return False
+    else:
+        videoList = retDic['data']['list']['vlist']
+        count = retDic['data']['page']['count']
+        return True, videoList, count
 
 def CheckChannelInfo(uid):
     url = 'http://api.bilibili.com/x/space/channel/list?mid='+str(uid)
@@ -198,6 +205,37 @@ def FindMusicFromUpperChannel(uid):
         print('error')
         return
 
+def FindMusicFromUpperAllVideo(uid):
+    errorcount = 3
+    allVideo = []
+    page = 1
+    while True:
+        ret, vlist, count = CheckUpload(uid,page)
+        if not ret:
+            if errorcount > 0:
+                errorcount -= 1
+                continue
+            else:
+                break
+        else:
+            errorcount = 3
+
+        allVideo.extend(vlist)
+        page += 1
+        if len(allVideo) >= count:
+            break
+        time.sleep(1)
+
+    for info in allVideo:
+        bvid = info['bvid']
+        ret, cid, pic, title = GetVideoInfoWithBvid(bvid)
+        if not ret:
+            print(bvid + 'info error')
+            continue
+        else:
+            # print(cid)
+            DownloadMusic(bvid, cid, title, pic)
+
 
 def FindMusicFromBvid(bvid):
     ret, cid, pic, title = GetVideoInfoWithBvid(bvid)
@@ -208,10 +246,10 @@ def FindMusicFromBvid(bvid):
         DownloadMusic(bvid,cid,title,pic)
 
 if __name__ == '__main__':
-    # uid = 285546994
+    uid = 10698584
     # FindMusicFromUpperChannel(uid)
-
-    FindMusicFromBvid('BV1cf4y177w4')
+    FindMusicFromUpperAllVideo(uid)
+    # FindMusicFromBvid('BV1cf4y177w4')
 
 
 
