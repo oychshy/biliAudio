@@ -1,5 +1,5 @@
 # biliAudio
-下载b站视频的音频。直接通过bvid下载视频的音频文件，或者通过UID查找想要的视频来下载音频。受限于B站的视频流，音频最高音质只有192K。
+下载b站视频的音频。直接通过bvid下载视频的音频文件，或者通过UID查找up的频道或者全部投稿的视,下载视频音频。受限于B站的视频流，音频最高音质只有192K。
 
 需要的模块：moviepy
 api来自：https://github.com/SocialSisterYi/bilibili-API-collect/tree/master/video

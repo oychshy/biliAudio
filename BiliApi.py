@@ -247,8 +247,12 @@ def FindMusicFromBvid(bvid):
 
 if __name__ == '__main__':
     uid = 10698584
+
+    # up频道的投稿
     # FindMusicFromUpperChannel(uid)
+    # up全部的投稿
     FindMusicFromUpperAllVideo(uid)
+    # bvid
     # FindMusicFromBvid('BV1cf4y177w4')
 
 
